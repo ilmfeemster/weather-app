@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var currentLocation: CLLocation?
     
-    var models = [Weather]()
+    var models = [WeatherResponse]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +52,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let long = currentLocation.coordinate.longitude
         let lat = currentLocation.coordinate.latitude
         
+        let url = "https://api.pirateweather.net/forecast/CfMo5auIyVqQJgef/\(lat),\(long)?units=us?exclude=[flags,minutely]"
+        
+        URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: {data, response, error in
+            guard let data = data, error == nil else {
+                print("fetchiing failed")
+                return
+            }
+        })
+        
         print("\(long) & \(lat)")
     }
     
@@ -63,9 +72,5 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return UITableViewCell()
     }
     
-    struct Weather {
-        
-    }
-
 }
 
