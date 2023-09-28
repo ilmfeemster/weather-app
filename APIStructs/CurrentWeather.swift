@@ -8,5 +8,7 @@
 import Foundation
 
 struct CurrentWeather: Codable {
-    
+    let summary: String
+    let icon: String
+    let temperature: Double
 }

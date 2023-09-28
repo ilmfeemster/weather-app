@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var currentLocation: CLLocation?
     
-    var models = [WeatherResponse]()
+    var models = [DailyWeatherEntry]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +59,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 print("fetchiing failed")
                 return
             }
-        })
+            
+            var json: WeatherResponse?
+            do {
+                json = try JSONDecoder().decode(WeatherResponse.self, from: data)
+            }
+            catch {
+                print("error: \(error)")
+            }
+            
+            guard let result = json else { return }
+            
+            print(result.currently.summary)
+            
+        }).resume()
         
         print("\(long) & \(lat)")
     }

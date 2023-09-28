@@ -8,5 +8,7 @@
 import Foundation
 
 struct HourlyWeather: Codable {
-    
+    let summary: String
+    let icon: String
+    let data: [HourlyWeatherEntry]
 }
