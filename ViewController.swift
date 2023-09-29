@@ -70,7 +70,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             guard let result = json else { return }
             
-            print(result.currently.summary)
+            let entries = result.daily.data
+            
+            self.models.append(contentsOf: entries)
+            
+            DispatchQueue.main.async {
+                self.table.reloadData()
+            }
             
         }).resume()
         
@@ -82,7 +88,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: WeatherTableViewCell.identifier, for: indexPath) as! WeatherTableViewCell
+        cell.configure(with: models[indexPath.row])
+        return cell
     }
     
 }
